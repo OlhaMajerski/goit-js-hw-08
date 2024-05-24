@@ -67,14 +67,12 @@ const images = [
 
     const refs = {
         itemList: document.querySelector('.gallery'),
-        modalElement: document.querySelector('.modal'),
-        backdropElem: document.querySelector('.js-backdrop'),
       }; 
 
 
       function imageTemplate(image) {
         return `<li class="gallery-item">
-        <a class="gallery-link" href=" ">
+        <a class="gallery-link" href="${image.original}">
           <img
             class="gallery-image"
             src= "${image.preview}"
@@ -92,3 +90,27 @@ const images = [
 
       const markup = imagesTemplate(images);
       refs.itemList.innerHTML = markup;
+
+      
+      refs.itemList.addEventListener('click', (e)=>{
+        e.preventDefault();
+        if(e.target === e.currentTarget)return
+        const liElem = e.target.closest('li')
+        const largeImage = liElem.dataset.sourse;
+        console.log(largeImage);
+      });
+
+
+
+
+
+    
+
+
+const instance = basicLightbox.create(`
+    <div class="modal">
+    <img src="${largeImage}" width="1112" height="640">
+    </div>
+`)
+
+instance.show()
