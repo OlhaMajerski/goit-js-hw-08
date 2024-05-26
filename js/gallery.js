@@ -95,22 +95,34 @@ const images = [
       refs.itemList.addEventListener('click', (e)=>{
         e.preventDefault();
         if(e.target === e.currentTarget)return
-        const liElem = e.target.closest('li')
-        const largeImage = liElem.dataset.sourse;
-        console.log(largeImage);
-      });
-
-
-
-
-
-    
-
-
-const instance = basicLightbox.create(`
+        const link = e.target.closest('.gallery-link');
+        if (!link) {
+          return;
+        }
+        const largeImage = link.href;
+        const instance = basicLightbox.create(`
     <div class="modal">
     <img src="${largeImage}" width="1112" height="640">
     </div>
-`)
+`,
+{
+  onShow: (instance) => {
+    const modalImage = instance.element().querySelector('img');
+    modalImage.addEventListener('click', () => {
+      instance.close();
+    });
+  },
+  onClose: (instance) => {
+    const modalImage = instance.element().querySelector('img');
+    modalImage.removeEventListener('click', () => {
+      instance.close();
+    });
+  },
+}
+);
 
 instance.show()
+
+      });
+
+  
